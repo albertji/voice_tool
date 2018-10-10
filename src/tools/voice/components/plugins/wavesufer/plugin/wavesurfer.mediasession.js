@@ -154,9 +154,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  * var wavesurfer = WaveSurfer.create({
  *   // wavesurfer options ...
  *   plugins: [
- *     MediaSessionPlugin.create({
- *       // plugin options ...
- *     })
+ *   MediaSessionPlugin.create({
+ *     // plugin options ...
+ *   })
  *   ]
  * });
  */
@@ -164,73 +164,73 @@ var MediaSessionPlugin =
 /*#__PURE__*/
 function () {
   _createClass(MediaSessionPlugin, null, [{
-    key: "create",
+  key: "create",
 
-    /**
-     * MediaSession plugin definition factory
-     *
-     * This function must be used to create a plugin definition which can be
-     * used by wavesurfer to correctly instantiate the plugin.
-     *
-     * @param  {MediaSessionPluginParams} params parameters use to initialise the plugin
-     * @return {PluginDefinition} an object representing the plugin
-     */
-    value: function create(params) {
-      return {
-        name: 'mediasession',
-        deferInit: params && params.deferInit ? params.deferInit : false,
-        params: params,
-        instance: MediaSessionPlugin
-      };
-    }
+  /**
+   * MediaSession plugin definition factory
+   *
+   * This function must be used to create a plugin definition which can be
+   * used by wavesurfer to correctly instantiate the plugin.
+   *
+   * @param  {MediaSessionPluginParams} params parameters use to initialise the plugin
+   * @return {PluginDefinition} an object representing the plugin
+   */
+  value: function create(params) {
+    return {
+    name: 'mediasession',
+    deferInit: params && params.deferInit ? params.deferInit : false,
+    params: params,
+    instance: MediaSessionPlugin
+    };
+  }
   }]);
 
   function MediaSessionPlugin(params, ws) {
-    var _this = this;
+  var _this = this;
 
-    _classCallCheck(this, MediaSessionPlugin);
+  _classCallCheck(this, MediaSessionPlugin);
 
-    this.params = params;
-    this.wavesurfer = ws;
+  this.params = params;
+  this.wavesurfer = ws;
 
-    if ('mediaSession' in navigator) {
-      // update metadata
-      this.metadata = this.params.metadata;
-      this.update(); // update metadata when playback starts
+  if ('mediaSession' in navigator) {
+    // update metadata
+    this.metadata = this.params.metadata;
+    this.update(); // update metadata when playback starts
 
-      this.wavesurfer.on('play', function () {
-        _this.update();
-      }); // set playback action handlers
+    this.wavesurfer.on('play', function () {
+    _this.update();
+    }); // set playback action handlers
 
-      navigator.mediaSession.setActionHandler('play', function () {
-        _this.wavesurfer.play();
-      });
-      navigator.mediaSession.setActionHandler('pause', function () {
-        _this.wavesurfer.playPause();
-      });
-      navigator.mediaSession.setActionHandler('seekbackward', function () {
-        _this.wavesurfer.skipBackward();
-      });
-      navigator.mediaSession.setActionHandler('seekforward', function () {
-        _this.wavesurfer.skipForward();
-      });
-    }
+    navigator.mediaSession.setActionHandler('play', function () {
+    _this.wavesurfer.play();
+    });
+    navigator.mediaSession.setActionHandler('pause', function () {
+    _this.wavesurfer.playPause();
+    });
+    navigator.mediaSession.setActionHandler('seekbackward', function () {
+    _this.wavesurfer.skipBackward();
+    });
+    navigator.mediaSession.setActionHandler('seekforward', function () {
+    _this.wavesurfer.skipForward();
+    });
+  }
   }
 
   _createClass(MediaSessionPlugin, [{
-    key: "init",
-    value: function init() {}
+  key: "init",
+  value: function init() {}
   }, {
-    key: "destroy",
-    value: function destroy() {}
+  key: "destroy",
+  value: function destroy() {}
   }, {
-    key: "update",
-    value: function update() {
-      if ((typeof MediaMetadata === "undefined" ? "undefined" : _typeof(MediaMetadata)) === (typeof Function === "undefined" ? "undefined" : _typeof(Function))) {
-        // set metadata
-        navigator.mediaSession.metadata = new MediaMetadata(this.metadata);
-      }
+  key: "update",
+  value: function update() {
+    if ((typeof MediaMetadata === "undefined" ? "undefined" : _typeof(MediaMetadata)) === (typeof Function === "undefined" ? "undefined" : _typeof(Function))) {
+    // set metadata
+    navigator.mediaSession.metadata = new MediaMetadata(this.metadata);
     }
+  }
   }]);
 
   return MediaSessionPlugin;

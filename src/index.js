@@ -14,20 +14,20 @@ renderWithHotReload();
 
 /*热更新*/
 if (module.hot) {
-    module.hot.accept('./router/main', () => {
-        renderWithHotReload();
-    });
+  module.hot.accept('./router/main', () => {
+    renderWithHotReload();
+  });
 }
 
 function renderWithHotReload() {
-    ReactDom.render(
-        <LocaleProvider locale={zh_CN}>
-            <AppContainer>
-                <Provider store={store}>
-                    <Main></Main>
-                </Provider>
-            </AppContainer>
-        </LocaleProvider>,
-        document.getElementById('app')
-    )
+  ReactDom.render(
+    <LocaleProvider locale={zh_CN}>
+      <AppContainer>
+        <Provider store={store}>
+          <Main></Main>
+        </Provider>
+      </AppContainer>
+    </LocaleProvider>,
+    document.getElementById('app')
+  )
 }

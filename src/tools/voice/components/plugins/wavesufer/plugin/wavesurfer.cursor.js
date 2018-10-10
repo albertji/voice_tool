@@ -155,9 +155,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  * var wavesurfer = WaveSurfer.create({
  *   // wavesurfer options ...
  *   plugins: [
- *     CursorPlugin.create({
- *       // plugin options ...
- *     })
+ *   CursorPlugin.create({
+ *     // plugin options ...
+ *   })
  *   ]
  * });
  */
@@ -165,35 +165,35 @@ var CursorPlugin =
 /*#__PURE__*/
 function () {
   _createClass(CursorPlugin, null, [{
-    key: "create",
+  key: "create",
 
-    /**
-     * Cursor plugin definition factory
-     *
-     * This function must be used to create a plugin definition which can be
-     * used by wavesurfer to correctly instantiate the plugin.
-     *
-     * @param  {CursorPluginParams} params parameters use to initialise the
-     * plugin
-     * @return {PluginDefinition} an object representing the plugin
-     */
-    value: function create(params) {
-      return {
-        name: 'cursor',
-        deferInit: params && params.deferInit ? params.deferInit : false,
-        params: params,
-        staticProps: {
-          enableCursor: function enableCursor() {
-            console.warn('Deprecated enableCursor!');
-            this.initPlugins('cursor');
-          }
-        },
-        instance: CursorPlugin
-      };
-    }
-    /**
-     * @type {CursorPluginParams}
-     */
+  /**
+   * Cursor plugin definition factory
+   *
+   * This function must be used to create a plugin definition which can be
+   * used by wavesurfer to correctly instantiate the plugin.
+   *
+   * @param  {CursorPluginParams} params parameters use to initialise the
+   * plugin
+   * @return {PluginDefinition} an object representing the plugin
+   */
+  value: function create(params) {
+    return {
+    name: 'cursor',
+    deferInit: params && params.deferInit ? params.deferInit : false,
+    params: params,
+    staticProps: {
+      enableCursor: function enableCursor() {
+      console.warn('Deprecated enableCursor!');
+      this.initPlugins('cursor');
+      }
+    },
+    instance: CursorPlugin
+    };
+  }
+  /**
+   * @type {CursorPluginParams}
+   */
 
   }]);
 
@@ -205,49 +205,49 @@ function () {
    * @param {object} ws
    */
   function CursorPlugin(params, ws) {
-    var _this = this;
+  var _this = this;
 
-    _classCallCheck(this, CursorPlugin);
+  _classCallCheck(this, CursorPlugin);
 
-    this.defaultParams = {
-      hideOnBlur: true,
-      width: '1px',
-      color: 'black',
-      opacity: '0.25',
-      style: 'solid',
-      zIndex: 4,
-      customStyle: {}
-    };
+  this.defaultParams = {
+    hideOnBlur: true,
+    width: '1px',
+    color: 'black',
+    opacity: '0.25',
+    style: 'solid',
+    zIndex: 4,
+    customStyle: {}
+  };
 
-    this._onMousemove = function (e) {
-      var bbox = _this.wavesurfer.container.getBoundingClientRect();
+  this._onMousemove = function (e) {
+    var bbox = _this.wavesurfer.container.getBoundingClientRect();
 
-      _this.updateCursorPosition(e.clientX - bbox.left);
-    };
+    _this.updateCursorPosition(e.clientX - bbox.left);
+  };
 
-    this._onMouseenter = function () {
-      return _this.showCursor();
-    };
+  this._onMouseenter = function () {
+    return _this.showCursor();
+  };
 
-    this._onMouseleave = function () {
-      return _this.hideCursor();
-    };
+  this._onMouseleave = function () {
+    return _this.hideCursor();
+  };
 
-    /** @private */
-    this.wavesurfer = ws;
-    /** @private */
+  /** @private */
+  this.wavesurfer = ws;
+  /** @private */
 
-    this.style = ws.util.style;
-    /**
-     * The cursor html element
-     *
-     * @type {?HTMLElement}
-     */
+  this.style = ws.util.style;
+  /**
+   * The cursor html element
+   *
+   * @type {?HTMLElement}
+   */
 
-    this.cursor = null;
-    /** @private */
+  this.cursor = null;
+  /** @private */
 
-    this.params = ws.util.extend({}, this.defaultParams, params);
+  this.params = ws.util.extend({}, this.defaultParams, params);
   }
   /**
    * Initialise the plugin (used by the Plugin API)
@@ -255,80 +255,80 @@ function () {
 
 
   _createClass(CursorPlugin, [{
-    key: "init",
-    value: function init() {
-      this.wrapper = this.wavesurfer.container;
-      this.cursor = this.wrapper.appendChild(this.style(document.createElement('cursor'), this.wavesurfer.util.extend({
-        position: 'absolute',
-        zIndex: this.params.zIndex,
-        left: 0,
-        top: 0,
-        bottom: 0,
-        width: '0',
-        display: 'block',
-        borderRightStyle: this.params.style,
-        borderRightWidth: this.params.width,
-        borderRightColor: this.params.color,
-        opacity: this.params.opacity,
-        pointerEvents: 'none'
-      }, this.params.customStyle)));
-      this.wrapper.addEventListener('mousemove', this._onMousemove);
+  key: "init",
+  value: function init() {
+    this.wrapper = this.wavesurfer.container;
+    this.cursor = this.wrapper.appendChild(this.style(document.createElement('cursor'), this.wavesurfer.util.extend({
+    position: 'absolute',
+    zIndex: this.params.zIndex,
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: '0',
+    display: 'block',
+    borderRightStyle: this.params.style,
+    borderRightWidth: this.params.width,
+    borderRightColor: this.params.color,
+    opacity: this.params.opacity,
+    pointerEvents: 'none'
+    }, this.params.customStyle)));
+    this.wrapper.addEventListener('mousemove', this._onMousemove);
 
-      if (this.params.hideOnBlur) {
-        this.wrapper.addEventListener('mouseenter', this._onMouseenter);
-        this.wrapper.addEventListener('mouseleave', this._onMouseleave);
-      }
+    if (this.params.hideOnBlur) {
+    this.wrapper.addEventListener('mouseenter', this._onMouseenter);
+    this.wrapper.addEventListener('mouseleave', this._onMouseleave);
     }
-    /**
-     * Destroy the plugin (used by the Plugin API)
-     */
+  }
+  /**
+   * Destroy the plugin (used by the Plugin API)
+   */
 
   }, {
-    key: "destroy",
-    value: function destroy() {
-      this.cursor.parentNode.removeChild(this.cursor);
-      this.wrapper.removeEventListener('mousemove', this._onMousemove);
+  key: "destroy",
+  value: function destroy() {
+    this.cursor.parentNode.removeChild(this.cursor);
+    this.wrapper.removeEventListener('mousemove', this._onMousemove);
 
-      if (this.params.hideOnBlur) {
-        this.wrapper.removeEventListener('mouseenter', this._onMouseenter);
-        this.wrapper.removeEventListener('mouseleave', this._onMouseleave);
-      }
+    if (this.params.hideOnBlur) {
+    this.wrapper.removeEventListener('mouseenter', this._onMouseenter);
+    this.wrapper.removeEventListener('mouseleave', this._onMouseleave);
     }
-    /**
-     * Update the cursor position
-     *
-     * @param {number} pos The x offset of the cursor in pixels
-     */
-
-  }, {
-    key: "updateCursorPosition",
-    value: function updateCursorPosition(pos) {
-      this.style(this.cursor, {
-        left: "".concat(pos, "px")
-      });
-    }
-    /**
-     * Show the cursor
-     */
+  }
+  /**
+   * Update the cursor position
+   *
+   * @param {number} pos The x offset of the cursor in pixels
+   */
 
   }, {
-    key: "showCursor",
-    value: function showCursor() {
-      this.style(this.cursor, {
-        display: 'block'
-      });
-    }
-    /**
-     * Hide the cursor
-     */
+  key: "updateCursorPosition",
+  value: function updateCursorPosition(pos) {
+    this.style(this.cursor, {
+    left: "".concat(pos, "px")
+    });
+  }
+  /**
+   * Show the cursor
+   */
 
   }, {
-    key: "hideCursor",
-    value: function hideCursor() {
-      this.style(this.cursor, {
-        display: 'none'
-      });
-    }
+  key: "showCursor",
+  value: function showCursor() {
+    this.style(this.cursor, {
+    display: 'block'
+    });
+  }
+  /**
+   * Hide the cursor
+   */
+
+  }, {
+  key: "hideCursor",
+  value: function hideCursor() {
+    this.style(this.cursor, {
+    display: 'none'
+    });
+  }
   }]);
 
   return CursorPlugin;
