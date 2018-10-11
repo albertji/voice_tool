@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Button } from 'antd'
-import Universe from "./universe"
-import Waver from "./waver"
-import "../assets/css/voice.css"
+import Universe from './universe'
+import Waver from './waver'
+import '../assets/css/voice.css'
 
 export default class MainPage extends Component {
   constructor(props) {
@@ -11,28 +11,38 @@ export default class MainPage extends Component {
     this.waver = false
     this.event_handlder = false
   }
-  componentDidMount(){
+
+  componentDidMount() {
     this.initEventHandle()
   }
-  initEventHandle = ()=>{
 
-  }
-  onUniverseRef = (universe)=>{
+  initEventHandle = () => {}
+
+  onUniverseRef = universe => {
     this.universe = universe
   }
-  onWaverRef = (waver)=>{
+
+  onWaverRef = waver => {
     this.waver = waver
   }
-  handleKeyUp = ()=>{
+
+  handleKeyUp = () => {
     // console.log(event.keyCode)
   }
-  render(){
+
+  render() {
     return (
       <div className="mainpage" tabIndex={0} onKeyUp={this.handleKeyUp}>
         <div className="voicecontainer">
-          <Waver onRef={this.onWaverRef}></Waver>
-          <Universe id="universe" onRef={this.onUniverseRef}></Universe>
-          <Button onClick={()=>{this.waver.zoom()}}>Zoom</Button>
+          <Waver onRef={this.onWaverRef} />
+          <Universe id="universe" onRef={this.onUniverseRef} />
+          <Button
+            onClick={() => {
+              this.waver.zoom()
+            }}
+          >
+            Zoom
+          </Button>
         </div>
       </div>
     )

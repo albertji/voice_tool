@@ -1,78 +1,100 @@
 import React, { Component } from 'react'
 import { Row, Col } from 'antd'
-import Planet from "./planet"
-import ContollerBar from "./contollerbar"
+import { connect } from 'react-redux'
+import Planet from './planet'
+import ContollerBar from './contollerbar'
 import {
   updatePlanetData,
   setControllerBarMode
-} from "../../../redux/actions/voice/action_voice_tool";
-import {connect} from "react-redux";
+} from '../../../redux/actions/voice/action_voice_tool'
 
-/*const AttrName =(props)=>{
+/* const AttrName =(props)=>{
   return (
     <div className={"attrname"}>{props.cname}</div>
   )
-}*/
+} */
 
 class Galaxy extends Component {
   constructor(props) {
     super(props)
+    this.state = null
   }
-  setControllerBarMode = (mode,info)=>{
-    let infos = {
+
+  setControllerBarMode = (mode, info) => {
+    const infos = {
       ...info,
       galaxy_seq: this.props.galaxy_seq
     }
-    this.props.setControllerBarMode(mode,infos)
+    this.props.setControllerBarMode(mode, infos)
   }
-  updatePlanetData = (val,planet_seq)=>{
-    let galaxy_seq = this.props.galaxy_seq
-    this.props.updatePlanetData(val,galaxy_seq,planet_seq)
+
+  updatePlanetData = (val, planetSeq) => {
+    const galaxySeq = this.props.galaxy_seq
+    this.props.updatePlanetData(val, galaxySeq, planetSeq)
   }
+
   render() {
-    let planets = this.props.data.list.map((planet,index)=>{
+    const planets = this.props.data.list.map((planet, index) => {
+      const key = `planet_${this.props.galaxy_seq}_${index}`
       return (
-        <Planet key={"planet_"+this.props.galaxy_seq+"_"+index} data={planet} updatePlanetData={this.updatePlanetData} planet_seq={index}></Planet>
+        <Planet
+          key={key}
+          data={planet}
+          updatePlanetData={this.updatePlanetData}
+          planet_seq={index}
+        />
       )
     })
-    let contoller_bars = []
-    this.props.data.list.map((planet,index)=>{
-      contoller_bars.push(
-        <ContollerBar key={"contollerbar_left_"+index} setControllerBarMode={this.setControllerBarMode} data={planet} type={0} seq={index}></ContollerBar>
+    const contollerBars = []
+    this.props.data.list.map((planet, index) => {
+      const keyLeft = `contollerbar_left_${index}`
+      const keyRight = `contollerbar_right_${index}`
+      contollerBars.push(
+        <ContollerBar
+          key={keyLeft}
+          setControllerBarMode={this.setControllerBarMode}
+          data={planet}
+          type={0}
+          seq={index}
+        />
       )
-      contoller_bars.push(
-        <ContollerBar key={"contollerbar_right_"+index} setControllerBarMode={this.setControllerBarMode} data={planet} type={1} seq={index}></ContollerBar>
+      contollerBars.push(
+        <ContollerBar
+          key={keyRight}
+          setControllerBarMode={this.setControllerBarMode}
+          data={planet}
+          type={1}
+          seq={index}
+        />
       )
+      return false
     })
-    return(
+    return (
       <Row align="middle" justify="center">
         <Col span={24}>
           <div className="galaxy">
             {planets}
-            {contoller_bars}
+            {contollerBars}
           </div>
         </Col>
-{/*        <Col span={2}>
+        {/*        <Col span={2}>
           <AttrName cname={this.props.data.name}></AttrName>
-        </Col>*/}
+        </Col> */}
       </Row>
     )
   }
 }
 
-const mapStatetoProps = (state) => {
-  return {
-    controller_bar_mode: state.voice_tool.controller_bar_mode
-  }
-}
-const mapDispatchToProps = dispatch => {
-  return {
-    updatePlanetData: (val,galaxy_seq,planet_seq)=> {
-      return dispatch(updatePlanetData(val,galaxy_seq,planet_seq))
-    },
-    setControllerBarMode: (mode,info)=>{
-      return dispatch(setControllerBarMode(mode,info))
-    },
-  }
-}
-export default connect(mapStatetoProps, mapDispatchToProps)(Galaxy)
+const mapStatetoProps = state => ({
+  controller_bar_mode: state.voice_tool.controller_bar_mode
+})
+const mapDispatchToProps = dispatch => ({
+  updatePlanetData: (val, galaxySeq, planetSeq) =>
+    dispatch(updatePlanetData(val, galaxySeq, planetSeq)),
+  setControllerBarMode: (mode, info) =>
+    dispatch(setControllerBarMode(mode, info))
+})
+export default connect(
+  mapStatetoProps,
+  mapDispatchToProps
+)(Galaxy)
