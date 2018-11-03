@@ -1,15 +1,15 @@
 const path = require('path')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
-  /*入口*/
+  /* 入口 */
   entry: ['react-hot-loader/patch', path.join(__dirname, 'src/index.js')],
 
-  /*输出到dist文件夹，输出文件名字为bundle.js*/
+  /* 输出到dist文件夹，输出文件名字为bundle.js */
   output: {
     path: path.join(__dirname, './dist'),
-    //path: 'C:\\wamp64\\www',
+    // path: 'C:\\wamp64\\www',
     filename: '[name].[hash].js',
     chunkFilename: '[name].[chunkhash].js',
     publicPath: '/'
@@ -45,7 +45,7 @@ module.exports = {
       filename: 'index.html',
       template: path.join(__dirname, 'src/index.html')
     })
-    //new UglifyJSPlugin()
+    // new UglifyJSPlugin()
   ],
   devServer: {
     port: 3344,
